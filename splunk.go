@@ -42,7 +42,7 @@ func (sw *Writer) Write(entry tracer.Entry) {
 	go func(sw *Writer, entry tracer.Entry) {
 		defer func() {
 			if err := recover(); err != nil {
-				stderr("COULD NOT SEND SPLUNK TO SEQ BECAUSE %v", err)
+				stderr("COULD NOT SEND SPLUNK TO SPLUNK BECAUSE %v", err)
 			}
 		}()
 		if entry.Level > sw.minimumLevel {

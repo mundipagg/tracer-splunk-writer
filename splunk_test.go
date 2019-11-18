@@ -149,7 +149,7 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"X-Seq-Apikey": []string{"key"},
+				"Splunk":       []string{"key"},
 				"Content-Type": []string{"application/json"},
 			}, request.Header, "it should return the expected header")
 			return nil, errors.New("failed")
@@ -177,7 +177,7 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"X-Seq-Apikey": []string{"key"},
+				"Splunk":       []string{"key"},
 				"Content-Type": []string{"application/json"},
 			}, request.Header, "it should return the expected header")
 			return httpmock.NewBytesResponse(502, nil), nil
@@ -205,7 +205,7 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"X-Seq-Apikey": []string{"key"},
+				"Splunk":       []string{"key"},
 				"Content-Type": []string{"application/json"},
 			}, request.Header, "it should return the expected header")
 			return httpmock.NewBytesResponse(201, nil), nil
