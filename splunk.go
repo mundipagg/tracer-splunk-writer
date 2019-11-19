@@ -54,6 +54,7 @@ func (sw *Writer) Write(entry tracer.Entry) {
 		message = s.ProcessString(r.Replace(message), properties)
 
 		l := NewEntry(sw.configLineLog)
+		l.Add("time", time.Now().UTC().UnixNano())
 		e := NewEntry(Entry{
 			"AdditionalData": properties,
 			"Message":        message,
@@ -75,7 +76,7 @@ func (sw *Writer) send(events []interface{}) error {
 
 	body, err := sw.marshaller.Marshal(events)
 	if err != nil {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err, string(body))
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err)
 		return err
 	}
 
@@ -88,12 +89,12 @@ func (sw *Writer) send(events []interface{}) error {
 	var response *http.Response
 	response, err = sw.client.Do(request)
 	if err != nil {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err, string(body))
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err)
 		return err
 	}
 	response.Body.Close()
 	if response.StatusCode != 200 {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", response.Status, string(body))
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", response.Status)
 		return errors.New(fmt.Sprintf("request returned %v", response.StatusCode))
 	}
 
