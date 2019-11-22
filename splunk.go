@@ -76,7 +76,7 @@ func (sw *Writer) send(events []interface{}) error {
 
 	body, err := sw.marshaller.Marshal(events)
 	if err != nil {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err)
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v", err)
 		return err
 	}
 
@@ -89,12 +89,12 @@ func (sw *Writer) send(events []interface{}) error {
 	var response *http.Response
 	response, err = sw.client.Do(request)
 	if err != nil {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", err)
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v", err)
 		return err
 	}
 	response.Body.Close()
 	if response.StatusCode != 200 {
-		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v, log: %v", response.Status)
+		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v", response.Status)
 		return errors.New(fmt.Sprintf("request returned %v", response.StatusCode))
 	}
 
