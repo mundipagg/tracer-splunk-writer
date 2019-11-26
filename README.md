@@ -1,5 +1,5 @@
 # Splunk Writer
-This library is a writer(sink) Splunk to use with [Tracer](https://github.com/mralves/tracer)
+This library is a writer(sink) [Splunk](https://www.splunk.com/en_us) to use with [Tracer](https://github.com/mralves/tracer)
 
 ## How to install
 Using go get (not recommended):
