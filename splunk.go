@@ -50,8 +50,13 @@ func (sw *Writer) Write(entry tracer.Entry) {
 		}
 
 		properties := NewEntry(append(entry.Args, sw.defaultPropertiesApp))
+
 		message := punctuation.FindStringSubmatch(s.Capitalize(entry.Message))[1]
-		message = s.ProcessString(r.Replace(message), properties)
+
+		message, err := s.ProcessString(r.Replace(message), properties)
+		if err != nil {
+			message = entry.Message
+		}
 
 		l := NewEntry(sw.configLineLog)
 		l.Add("time", time.Now().UTC().UnixNano())
