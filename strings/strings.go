@@ -2,7 +2,6 @@ package strings
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"regexp"
 	"strings"
@@ -35,21 +34,21 @@ func Capitalize(str string) string {
 	return strings.ToUpper(string(str[0])) + str[1:]
 }
 
-func ProcessString(str string, vars interface{}) string {
+func ProcessString(str string, vars interface{}) (string, error) {
 	tmpl, err := template.New("tmpl").Parse(str)
 
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 	return process(tmpl, vars)
 }
 
-func process(t *template.Template, vars interface{}) string {
+func process(t *template.Template, vars interface{}) (string, error) {
 	var tmplBytes bytes.Buffer
 
 	err := t.Execute(&tmplBytes, vars)
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
-	return tmplBytes.String()
+	return tmplBytes.String(), nil
 }
