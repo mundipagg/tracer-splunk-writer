@@ -49,7 +49,15 @@ func (sw *Writer) Write(entry tracer.Entry) {
 			return
 		}
 
-		properties := NewEntry(append(entry.Args, sw.defaultPropertiesApp))
+		extraProperties := map[string]interface{}{
+			"RequestKey": entry.TransactionId,
+		}
+
+		if s.IsBlank(entry.TransactionId) {
+			delete(extraProperties, "RequestKey")
+		}
+
+		properties := NewEntry(append(entry.Args, sw.defaultPropertiesApp, extraProperties))
 
 		message := punctuation.FindStringSubmatch(s.Capitalize(entry.Message))[1]
 
