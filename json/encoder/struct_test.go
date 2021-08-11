@@ -1,16 +1,15 @@
-// +build unit
-
 package encoder
 
 import (
 	"bytes"
 	"errors"
-	"github.com/json-iterator/go"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"strings"
 	"testing"
 	"unsafe"
+
+	jsoniter "github.com/json-iterator/go"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestStruct_IsEmpty(t *testing.T) {
@@ -130,7 +129,7 @@ func TestStruct_Encode(t *testing.T) {
 			input := struct {
 				A int  `json:"SuperParameterA"`
 				B *int `json:"SuperParameterB,omitempty"`
-				C int `json:"SuperParameterC,omitempty"`
+				C int  `json:"SuperParameterC,omitempty"`
 				D *int `json:"SuperParameterD,omitempty"`
 				E int  `json:"SuperParameterE"`
 			}{

@@ -2,7 +2,6 @@ package splunk
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -108,7 +107,7 @@ func (sw *Writer) send(events []interface{}) error {
 	response.Body.Close()
 	if response.StatusCode != 200 {
 		stderr("COULD NOT SEND LOG TO SPLUNK BECAUSE %v", response.Status)
-		return errors.New(fmt.Sprintf("request returned %v", response.StatusCode))
+		return fmt.Errorf("request returned %v", response.StatusCode)
 	}
 
 	return nil

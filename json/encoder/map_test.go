@@ -1,15 +1,14 @@
-// +build unit
-
 package encoder
 
 import (
 	"bytes"
-	"github.com/json-iterator/go"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"strconv"
 	"testing"
 	"unsafe"
+
+	jsoniter "github.com/json-iterator/go"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMap_Encode(t *testing.T) {

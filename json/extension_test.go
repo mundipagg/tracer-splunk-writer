@@ -1,13 +1,12 @@
-// +build unit
-
 package json
 
 import (
+	"reflect"
+	"testing"
+
 	"github.com/modern-go/reflect2"
 	"github.com/mundipagg/tracer-splunk-writer/json/encoder"
 	"github.com/stretchr/testify/assert"
-	"reflect"
-	"testing"
 )
 
 func TestCaseStrategyExtension_CreateMapKeyEncoder(t *testing.T) {
