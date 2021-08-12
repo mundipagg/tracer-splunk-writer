@@ -1,11 +1,10 @@
-// +build unit
-
 package strings
 
 import (
+	"testing"
+
 	"github.com/icrowley/fake"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestIsBlank(t *testing.T) {

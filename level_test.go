@@ -1,11 +1,10 @@
-// +build unit
-
 package splunk
 
 import (
+	"testing"
+
 	"github.com/mralves/tracer"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestLevel(t *testing.T) {

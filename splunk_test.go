@@ -1,5 +1,3 @@
-//+build unit
-
 package splunk
 
 import (
@@ -17,6 +15,13 @@ import (
 	"github.com/mundipagg/tracer-splunk-writer/json"
 	"github.com/stretchr/testify/assert"
 )
+
+type event struct {
+	Level           string
+	MessageTemplate string
+	Properties      Entry
+	Timestamp       string
+}
 
 func TestWriter_Write(t *testing.T) {
 	os.Stderr, _ = os.Open(os.DevNull)
@@ -55,7 +60,6 @@ func TestWriter_Write(t *testing.T) {
 		ref := time.Now()
 		stackTrace := tracer.GetStackTrace(3)
 		event := event{
-
 			Level:           Error,
 			MessageTemplate: "Before Message After",
 			Properties: Entry{
@@ -72,7 +76,7 @@ func TestWriter_Write(t *testing.T) {
 			buffer:         buf,
 			minimumLevel:   tracer.Debug,
 			messageEnvelop: "Before %v After",
-			defaultProperties: Entry{
+			defaultPropertiesApp: Entry{
 				"Name": "Default",
 			},
 		}
@@ -92,8 +96,7 @@ func TestWriter_Write(t *testing.T) {
 			},
 		}
 		subject.Write(entry)
-		time.Sleep(30 * time.Millisecond)
-		buf.AssertExpectations(t)
+		buf.AssertNumberOfCalls(t, "Write", 0)
 	})
 }
 
@@ -149,8 +152,8 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"Splunk":       []string{"key"},
-				"Content-Type": []string{"application/json"},
+				"Authorization": []string{"Splunk key"},
+				"Content-Type":  []string{"application/json"},
 			}, request.Header, "it should return the expected header")
 			return nil, errors.New("failed")
 		})
@@ -177,8 +180,8 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"Splunk":       []string{"key"},
-				"Content-Type": []string{"application/json"},
+				"Authorization": []string{"Splunk key"},
+				"Content-Type":  []string{"application/json"},
 			}, request.Header, "it should return the expected header")
 			return httpmock.NewBytesResponse(502, nil), nil
 		})
@@ -205,10 +208,10 @@ func TestWriter_Send(t *testing.T) {
 		url := "http://log.io/" + fake.Password(8, 8, false, false, false)
 		httpmock.RegisterResponder("POST", url, func(request *http.Request) (response *http.Response, err error) {
 			is.Equal(http.Header{
-				"Splunk":       []string{"key"},
-				"Content-Type": []string{"application/json"},
+				"Authorization": []string{"Splunk key"},
+				"Content-Type":  []string{"application/json"},
 			}, request.Header, "it should return the expected header")
-			return httpmock.NewBytesResponse(201, nil), nil
+			return httpmock.NewBytesResponse(200, nil), nil
 		})
 		subject := &Writer{
 			address:    url,

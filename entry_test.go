@@ -1,10 +1,9 @@
-// +build unit
-
 package splunk
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestEntry_Add(t *testing.T) {
